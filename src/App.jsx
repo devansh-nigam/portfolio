@@ -97,22 +97,26 @@ export default function App() {
       <div
         style={{
           position: 'absolute',
-          bottom: 20,
-          left: '50%',
-          transform: 'translateX(-50%)',
+          bottom: 10,
+          left: 10,
+          right: 10,
           color: '#fff',
           fontFamily: 'monospace',
           fontSize: 13,
-          background: 'rgba(0,0,0,0.55)',
-          padding: '10px 16px',
-          borderRadius: 8,
+          background: 'rgba(0,0,0,0.65)',
+          padding: '12px 14px',
+          borderRadius: 12,
           display: 'flex',
+          flexWrap: 'wrap',
           alignItems: 'center',
-          gap: 12,
-          minWidth: 320,
+          gap: 10,
+          maxWidth: 'calc(100% - 20px)',
+          minWidth: 0,
         }}
       >
-        <label htmlFor="speed">rotation speed</label>
+        <label htmlFor="speed" style={{ minWidth: 110, flexShrink: 0 }}>
+          rotation speed
+        </label>
         <input
           id="speed"
           type="range"
@@ -121,17 +125,19 @@ export default function App() {
           step="0.0001"
           value={speed}
           onChange={(e) => setSpeed(parseFloat(e.target.value))}
-          style={{ flex: 1 }}
+          style={{ flex: 1, minWidth: 0 }}
         />
-        <span style={{ width: 70, textAlign: 'right' }}>{speed.toFixed(4)}</span>
+        <span style={{ width: 72, textAlign: 'right', flexShrink: 0 }}>
+          {speed.toFixed(4)}
+        </span>
         <button
           onClick={() => setSpeed(0)}
           style={{
             background: '#222',
             color: '#fff',
             border: '1px solid #444',
-            borderRadius: 4,
-            padding: '2px 8px',
+            borderRadius: 6,
+            padding: '6px 10px',
             cursor: 'pointer',
           }}
         >
@@ -143,8 +149,8 @@ export default function App() {
             background: '#222',
             color: '#fff',
             border: '1px solid #444',
-            borderRadius: 4,
-            padding: '2px 8px',
+            borderRadius: 6,
+            padding: '6px 10px',
             cursor: 'pointer',
           }}
         >
