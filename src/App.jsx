@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import profilePhoto from './assets/profile-photo.jpeg';
 
 export default function App() {
   const mountRef = useRef(null);
@@ -33,9 +34,7 @@ export default function App() {
     controls.enablePan = false;
 
     const textureLoader = new THREE.TextureLoader();
-    const earthTexture = textureLoader.load(
-      'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg'
-    );
+    const earthTexture = textureLoader.load(profilePhoto);
 
     const geometry = new THREE.SphereGeometry(1, 64, 64);
     const material = new THREE.MeshPhongMaterial({ map: earthTexture, shininess: 5 });
