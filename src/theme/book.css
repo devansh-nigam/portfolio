@@ -1,0 +1,249 @@
+/* Shared book theme for every page: day = aged paper, night = reading by candlelight.
+   Each page's index.html sets data-theme before first paint (see ThemeToggle). */
+:root,
+:root[data-theme='day'] {
+  --paper: #f1e2bd;
+  --paper-edge: #d9bf86;
+  --stain: rgba(160, 110, 40, 0.13);
+  --ink: #3b2915;
+  --ink-soft: rgba(59, 41, 21, 0.78);
+  --ink-faint: rgba(59, 41, 21, 0.45);
+  --rule: rgba(59, 41, 21, 0.28);
+  --accent: #8a2a1f;
+  --mount: #fbf3df;
+  --grain-blend: multiply;
+  --grain-opacity: 0.32;
+  color-scheme: light;
+}
+
+:root[data-theme='night'] {
+  --paper: #1f170f;
+  --paper-edge: #0d0905;
+  --stain: rgba(255, 170, 70, 0.07);
+  --ink: #ecdcb6;
+  --ink-soft: rgba(236, 220, 182, 0.8);
+  --ink-faint: rgba(236, 220, 182, 0.45);
+  --rule: rgba(236, 220, 182, 0.22);
+  --accent: #e08a62;
+  --mount: #2c2217;
+  --grain-blend: soft-light;
+  --grain-opacity: 0.5;
+  color-scheme: dark;
+}
+
+:root {
+  --leather: #4a1a16;
+  --gold: #d4b26a;
+  --gold-hi: #f4e2a8;
+  --gold-lo: #a07a32;
+  --gold-grad: linear-gradient(180deg, var(--gold-hi) 0%, var(--gold) 45%, var(--gold-lo) 100%);
+  --wrong: #ff8d7a;
+
+  --body: 'EB Garamond', Garamond, 'Times New Roman', serif;
+  --fell: 'IM Fell English', 'EB Garamond', serif;
+  --fell-sc: 'IM Fell English SC', 'EB Garamond', serif;
+  --script: 'Pinyon Script', 'Snell Roundhand', cursive;
+
+  --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.25 0 0 0 0 0.12 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background-color: var(--paper);
+  color: var(--ink);
+  transition: background-color 0.6s ease, color 0.6s ease;
+}
+
+/* Paper: grain, darkened deckled edges and a couple of age stains. */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::before {
+  background:
+    radial-gradient(28vmax 22vmax at 88% 12%, var(--stain), transparent 70%),
+    radial-gradient(18vmax 14vmax at 8% 78%, var(--stain), transparent 70%),
+    radial-gradient(ellipse at center, transparent 50%, var(--paper-edge) 130%);
+}
+
+body::after {
+  background-image: var(--noise);
+  mix-blend-mode: var(--grain-blend);
+  opacity: var(--grain-opacity);
+}
+
+body {
+  font-family: var(--body);
+  font-size: 19px;
+  line-height: 1.6;
+  font-variant-numeric: oldstyle-nums;
+  font-feature-settings: 'liga', 'dlig';
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+a {
+  color: inherit;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+/* ───────────────────────── ribbon (theme toggle) ───────────────────────── */
+
+.ribbon {
+  position: fixed;
+  top: -14px;
+  right: 22px;
+  z-index: 30;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 34px;
+  height: 84px;
+  padding: 0 0 22px;
+  border: 0;
+  background: linear-gradient(90deg, #6e1712, #a3271d 45%, #7d1a14);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+  color: var(--gold-hi);
+  font-family: var(--fell);
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.3));
+}
+
+.ribbon span {
+  display: block;
+}
+
+/* ───────────────────────── leather cover (loader + PIN gate) ───────────────────────── */
+
+.cover {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 28px 20px;
+  overflow: hidden auto;
+  color: var(--gold);
+  user-select: none;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.55), transparent 7%, transparent 93%, rgba(0, 0, 0, 0.3)),
+    radial-gradient(ellipse at 35% 25%, #6e2a22, var(--leather) 55%, #2a0c0a 100%);
+  box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.6);
+}
+
+.cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--noise);
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.cover__frame {
+  position: absolute;
+  inset: 14px;
+  border: 1.5px solid rgba(212, 178, 106, 0.55);
+  pointer-events: none;
+}
+
+.cover__frame::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(212, 178, 106, 0.3);
+}
+
+.cover__corner {
+  position: absolute;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--gold);
+  opacity: 0.8;
+}
+.cover__corner--tl { top: 12px; left: 12px; transform: rotate(-45deg); }
+.cover__corner--tr { top: 12px; right: 12px; transform: rotate(45deg) scaleX(-1); }
+.cover__corner--bl { bottom: 12px; left: 12px; transform: rotate(-135deg) scaleX(-1); }
+.cover__corner--br { bottom: 12px; right: 12px; transform: rotate(135deg); }
+
+.cover__panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(330px, 100%);
+  text-align: center;
+}
+
+.cover__kicker {
+  margin: 0;
+  font-family: var(--fell-sc);
+  font-size: 13px;
+  letter-spacing: 0.32em;
+  color: rgba(212, 178, 106, 0.8);
+}
+
+.cover__title {
+  margin: 4px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--script);
+  font-weight: 400;
+  font-size: clamp(3.6rem, 17vw, 4.4rem);
+  line-height: 1.05;
+  padding: 0 0.2em;
+  background: var(--gold-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.6));
+}
+
+.cover__title span {
+  font-family: var(--fell);
+  font-style: italic;
+  font-size: 0.32em;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html,
+  body {
+    transition: none;
+  }
+}

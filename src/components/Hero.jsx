@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import {
   motion,
   useMotionTemplate,
@@ -7,25 +7,24 @@ import {
   useSpring,
   useTransform,
 } from 'framer-motion';
-import { pad, useClock } from '../hooks.js';
-
-// three.js is the heavy part of the bundle; split it out so the loader paints first.
-const ParticleField = lazy(() => import('./ParticleField.jsx'));
 
 const NAME = 'Devansh';
-const GREETING = 'hi, i am';
+const GREETING = 'Hello, I am';
 const EASE_OUT = [0.16, 1, 0.3, 1];
-const PARALLAX_X = 34; // px of travel per unit of depth
-const PARALLAX_Y = 22;
-const IDLE_AFTER = 2500; // ms without input before the scene drifts on its own
+const PARALLAX_X = 30; // px of travel per unit of depth
+const PARALLAX_Y = 20;
+const IDLE_AFTER = 2500; // ms without input before the page drifts on its own
+const MOTES = 26;
 
-const MARKERS = [
-  { left: '9%', top: '18%', label: '01 / 47.21' },
-  { left: '84%', top: '24%', label: '02 / 12.08' },
-  { left: '14%', top: '76%', label: '03 / 88.40' },
-  { left: '78%', top: '72%', label: '04 / 30.65' },
-  { left: '50%', top: '12%', label: '' },
-  { left: '62%', top: '86%', label: '' },
+// Faint handwriting behind everything, like the previous owner's notes bleeding through.
+const MANUSCRIPT = [
+  'Dear reader, these pages are still being written,',
+  'and you have found them a little early.',
+  'Stay a while; turn a page or two.',
+  'Every story worth reading begins with a hello.',
+  'Dear reader, these pages are still being written,',
+  'and you have found them a little early.',
+  'Stay a while; turn a page or two.',
 ];
 
 const clamp = (v) => Math.max(-1, Math.min(1, v));
@@ -42,47 +41,61 @@ function Layer({ depth, sx, sy, tilt = 0, className = '', children }) {
   );
 }
 
-// Each letter sits at its own depth (outer letters closer) so the word breathes as you move.
-function Letter({ char, index, sx, sy, start, reduce }) {
-  const offset = Math.abs(index - (NAME.length - 1) / 2) * 0.12;
-  const x = useTransform(sx, (v) => v * -PARALLAX_X * offset);
-  const y = useTransform(sy, (v) => v * -PARALLAX_Y * offset);
+function CompassRose() {
+  const points = Array.from({ length: 16 }, (_, i) => i * 22.5);
   return (
-    <motion.span className="name__slot" style={{ x, y }}>
-      <motion.span
-        className="name__letter"
-        initial={reduce ? { opacity: 0 } : { y: '115%', rotateX: -80, opacity: 0 }}
-        animate={start ? { y: '0%', rotateX: 0, opacity: 1 } : undefined}
-        transition={{ duration: 1.2, ease: EASE_OUT, delay: 0.55 + index * 0.07 }}
-        whileHover={{ y: '-8%', transition: { duration: 0.25 } }}
-      >
-        {char}
-      </motion.span>
-    </motion.span>
+    <svg className="compass" viewBox="-100 -100 200 200" aria-hidden="true">
+      <circle r="96" />
+      <circle r="90" />
+      <circle r="62" className="compass__dash" />
+      <circle r="30" />
+      {points.map((a, i) => (
+        <path
+          key={a}
+          d={i % 4 === 0 ? 'M0 -88 L7 -7 L0 0 L-7 -7 Z' : i % 2 === 0 ? 'M0 -64 L5 -5 L0 0 L-5 -5 Z' : 'M0 -46 L3 -3 L0 0 L-3 -3 Z'}
+          transform={`rotate(${a})`}
+          className={i % 4 === 0 ? 'compass__point compass__point--major' : 'compass__point'}
+        />
+      ))}
+      {Array.from({ length: 72 }, (_, i) => (
+        <line key={i} x1="0" y1={i % 6 === 0 ? -96 : -93} x2="0" y2="-90" transform={`rotate(${i * 5})`} />
+      ))}
+    </svg>
   );
 }
 
 const fadeIn = (start, delay, extra = {}) => ({
   initial: { opacity: 0, ...extra },
-  animate: start ? { opacity: 1, scale: 1, scaleX: 1 } : undefined,
-  transition: { duration: 1.1, ease: EASE_OUT, delay },
+  animate: start ? { opacity: 1, y: 0, scale: 1, scaleX: 1, rotate: 0 } : undefined,
+  transition: { duration: 1.4, ease: EASE_OUT, delay },
 });
 
-export default function Hero({ start, onSceneReady }) {
+export default function Hero({ start }) {
   const reduce = useReducedMotion();
-  const clock = useClock(1000);
   const isTouch = useMemo(() => window.matchMedia('(hover: none)').matches, []);
+  const motes = useMemo(
+    () =>
+      Array.from({ length: MOTES }, () => ({
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+        size: 2 + Math.random() * 4,
+        duration: 10 + Math.random() * 14,
+        delay: -Math.random() * 20,
+        drift: 20 + Math.random() * 50,
+      })),
+    []
+  );
 
-  // Normalised pointer in [-1, 1], smoothed by springs and shared with the 3D scene.
+  // Normalised pointer in [-1, 1], smoothed by springs.
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const spring = { stiffness: 45, damping: 18, mass: 0.9 };
+  const spring = { stiffness: 40, damping: 18, mass: 1 };
   const sx = useSpring(mx, spring);
   const sy = useSpring(my, spring);
 
   const px = useMotionValue(-9999);
   const py = useMotionValue(-9999);
-  const spotlight = useMotionTemplate`radial-gradient(560px circle at ${px}px ${py}px, rgba(94, 242, 255, 0.075), transparent 65%)`;
+  const candle = useMotionTemplate`radial-gradient(420px circle at ${px}px ${py}px, var(--candle), transparent 70%)`;
 
   useEffect(() => {
     let lastInput = -Infinity;
@@ -102,8 +115,8 @@ export default function Hero({ start, onSceneReady }) {
     };
     const drift = (t) => {
       if (!reduce && t - lastInput > IDLE_AFTER) {
-        mx.set(Math.sin(t * 0.00035) * 0.55);
-        my.set(Math.sin(t * 0.00027 + 1.3) * 0.35);
+        mx.set(Math.sin(t * 0.0003) * 0.5);
+        my.set(Math.sin(t * 0.00023 + 1.3) * 0.35);
       }
       raf = requestAnimationFrame(drift);
     };
@@ -118,24 +131,26 @@ export default function Hero({ start, onSceneReady }) {
   }, [mx, my, px, py, reduce]);
 
   return (
-    <main className="hero">
-      <Suspense fallback={null}>
-        <ParticleField sx={sx} sy={sy} start={start} onReady={onSceneReady} />
-      </Suspense>
-
-      <div className="hero__stage">
-        <Layer depth={0.25} sx={sx} sy={sy}>
-          <motion.div className="ghost" aria-hidden="true" {...fadeIn(start, 0.2, { scale: 1.15 })}>
-            {NAME.toUpperCase()}
+    <main className="home">
+      <div className="home__stage">
+        <Layer depth={0.2} sx={sx} sy={sy}>
+          {/* The fade lives on the wrapper so it can't override the manuscript's own faintness and tilt. */}
+          <motion.div aria-hidden="true" {...fadeIn(start, 0.1)}>
+            <div className="manuscript">
+              {MANUSCRIPT.map((line, i) => (
+                <p key={i}>{line}</p>
+              ))}
+            </div>
           </motion.div>
         </Layer>
 
-        <Layer depth={0.6} sx={sx} sy={sy}>
-          <motion.span className="orb orb--a" {...fadeIn(start, 0.1, { scale: 0.6 })} />
-          <motion.span className="orb orb--b" {...fadeIn(start, 0.3, { scale: 0.6 })} />
+        <Layer depth={0.5} sx={sx} sy={sy}>
+          <motion.div className="compass-wrap" {...fadeIn(start, 0.2, { scale: 0.85, rotate: -30 })}>
+            <CompassRose />
+          </motion.div>
         </Layer>
 
-        <Layer depth={1} tilt={7} sx={sx} sy={sy} className="layer--headline">
+        <Layer depth={1} tilt={5} sx={sx} sy={sy} className="layer--headline">
           <h1 className="headline">
             <span className="hello">
               {GREETING.split('').map((c, i) => (
@@ -143,55 +158,64 @@ export default function Hero({ start, onSceneReady }) {
                   key={i}
                   initial={{ opacity: 0 }}
                   animate={start ? { opacity: 1 } : undefined}
-                  transition={{ duration: 0.01, delay: 0.25 + i * 0.055 }}
+                  transition={{ duration: 0.3, delay: 0.35 + i * 0.05 }}
                 >
                   {c}
                 </motion.span>
               ))}
-              <span className="caret" aria-hidden="true" />
             </span>
-            <span className="name" aria-label={NAME}>
-              {NAME.split('').map((c, i) => (
-                <Letter key={i} char={c} index={i} sx={sx} sy={sy} start={start} reduce={reduce} />
-              ))}
-            </span>
+            {/* Revealed left to right, so the name looks written in by hand. */}
+            <motion.span
+              className="name"
+              initial={{ clipPath: 'inset(-20% 100% -30% -5%)' }}
+              animate={start ? { clipPath: 'inset(-20% -5% -30% -5%)' } : undefined}
+              transition={{ duration: reduce ? 0.6 : 2.2, ease: [0.45, 0.05, 0.35, 1], delay: 0.9 }}
+            >
+              {NAME}
+            </motion.span>
           </h1>
-          <motion.div className="underline" aria-hidden="true" {...fadeIn(start, 1.25, { scaleX: 0 })} />
+          <motion.div className="ornament" aria-hidden="true" {...fadeIn(start, 2.6, { scaleX: 0 })}>
+            <span />❦<span />
+          </motion.div>
+          <motion.p className="tagline" {...fadeIn(start, 2.9, { y: 8 })}>
+            a personal volume, still being written
+          </motion.p>
         </Layer>
 
-        <Layer depth={2.2} sx={sx} sy={sy}>
-          {MARKERS.map((m, i) => (
-            <motion.span
-              key={i}
-              className="marker"
-              style={{ left: m.left, top: m.top }}
-              {...fadeIn(start, 1.4 + i * 0.08)}
-            >
-              <i />
-              {m.label}
-            </motion.span>
-          ))}
+        <Layer depth={1.8} sx={sx} sy={sy}>
+          <motion.div className="motes" aria-hidden="true" {...fadeIn(start, 1)}>
+            {motes.map((m, i) => (
+              <i
+                key={i}
+                style={{
+                  left: m.left,
+                  top: m.top,
+                  width: m.size,
+                  height: m.size,
+                  animationDuration: `${m.duration}s`,
+                  animationDelay: `${m.delay}s`,
+                  '--drift': `${m.drift}px`,
+                }}
+              />
+            ))}
+          </motion.div>
         </Layer>
       </div>
 
-      {!isTouch && <motion.div className="spotlight" style={{ background: spotlight }} />}
-      <div className="grain" />
-      <div className="vignette" />
+      {!isTouch && <motion.div className="candle" style={{ background: candle }} />}
 
-      <motion.div className="frame" {...fadeIn(start, 1.5)}>
-        <span className="frame__item frame__item--tl">
-          <b>DN</b> <span className="muted">// devanshnigam.in</span>
-        </span>
-        <span className="frame__item frame__item--tr">
-          <span className="pulse" /> online{' '}
-          <span className="muted">
-            {pad(clock.getHours())}:{pad(clock.getMinutes())}:{pad(clock.getSeconds())}
-          </span>
-        </span>
-        <span className="frame__item frame__item--bl muted">© {clock.getFullYear()}</span>
-        <span className="frame__item frame__item--br muted">
-          {isTouch ? 'tilt or drag to explore' : 'move your cursor'} ✦
-        </span>
+      <motion.div className="page-frame" aria-hidden="true" {...fadeIn(start, 1.6)}>
+        <span className="page-frame__corner page-frame__corner--tl">❦</span>
+        <span className="page-frame__corner page-frame__corner--tr">❦</span>
+        <span className="page-frame__corner page-frame__corner--bl">❦</span>
+        <span className="page-frame__corner page-frame__corner--br">❦</span>
+      </motion.div>
+
+      <motion.div className="marginalia" {...fadeIn(start, 1.8)}>
+        <span className="marginalia__head">The Pages of Devansh</span>
+        <span className="marginalia__bl">est. MMXXVI</span>
+        <span className="marginalia__folio">— i —</span>
+        <span className="marginalia__br">{isTouch ? 'tilt or drag the page' : 'move your cursor'} ❧</span>
       </motion.div>
     </main>
   );

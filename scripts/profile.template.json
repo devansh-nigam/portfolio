@@ -1,0 +1,27 @@
+{
+  "name": "Devansh",
+  "age": "[your age]",
+  "tagline": "[your one-liner, e.g. 'will debug your life and your code']",
+  "photos": [],
+  "facts": [
+    { "icon": "📍", "text": "[your city]" },
+    { "icon": "📏", "text": "[your height]" },
+    { "icon": "💼", "text": "[your job]" },
+    { "icon": "🎓", "text": "[your college]" },
+    { "icon": "🗣️", "text": "[your languages]" }
+  ],
+  "about": "[your intro: a few honest lines about who you are]",
+  "lookingFor": "[your answer to 'what are you looking for?']",
+  "prompts": [
+    { "q": "A perfect first date", "a": "[your answer]" },
+    { "q": "I'll fall for you if", "a": "[your answer]" },
+    { "q": "My most irrational fear", "a": "[your answer]" },
+    { "q": "Two truths and a lie", "a": "[your answer]" }
+  ],
+  "interests": ["[your interest]", "[your interest]", "[your interest]"],
+  "greenFlags": ["[your green flag]", "[your green flag]"],
+  "song": { "title": "[your song]", "artist": "[your artist]", "url": "" },
+  "contact": [
+    { "label": "Instagram", "handle": "@[your handle]", "url": "https://instagram.com/" }
+  ]
+}
