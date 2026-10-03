@@ -134,11 +134,22 @@ a {
   font-size: 17px;
   line-height: 1;
   cursor: pointer;
+  touch-action: manipulation;
   filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.3));
 }
 
 .ribbon span {
   display: block;
+}
+
+@media (max-width: 480px) {
+  .ribbon {
+    right: 14px;
+    width: 30px;
+    height: 68px;
+    padding-bottom: 18px;
+    font-size: 15px;
+  }
 }
 
 /* ───────────────────────── leather cover (loader + PIN gate) ───────────────────────── */
@@ -150,7 +161,7 @@ a {
   display: grid;
   place-items: center;
   padding: 28px 20px;
-  overflow: hidden auto;
+  overflow: hidden;
   color: var(--gold);
   user-select: none;
   background:
@@ -219,7 +230,8 @@ a {
   align-items: center;
   font-family: var(--script);
   font-weight: 400;
-  font-size: clamp(3.6rem, 17vw, 4.4rem);
+  font-size: clamp(2.6rem, min(17vw, 8vh), 4.4rem);
+  font-size: clamp(2.6rem, min(17vw, 8svh), 4.4rem);
   line-height: 1.05;
   padding: 0 0.2em;
   background: var(--gold-grad);

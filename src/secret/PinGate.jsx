@@ -161,70 +161,72 @@ export default function PinGate({ onUnlock }) {
         <span className="cover__corner cover__corner--br">❦</span>
       </div>
 
-      <motion.div
-        className="cover__panel"
-        initial={{ y: 18, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1, ease: EASE_OUT, delay: 0.15 }}
-      >
-        <p className="cover__kicker">A Private Volume</p>
-        <h1 className="cover__title">
-          <span>The Pages of</span>
-          Devansh
-        </h1>
+      <div className="cover__scroll">
+        <motion.div
+          className="cover__panel"
+          initial={{ y: 18, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1, ease: EASE_OUT, delay: 0.15 }}
+        >
+          <p className="cover__kicker">A Private Volume</p>
+          <h1 className="cover__title">
+            <span>The Pages of</span>
+            Devansh
+          </h1>
 
-        <WaxSeal status={status} controls={wobble} />
+          <WaxSeal status={status} controls={wobble} />
 
-        <p className="cover__sub">This book opens only with the four-figure key you were given.</p>
+          <p className="cover__sub">This book opens only with the four-figure key you were given.</p>
 
-        <motion.div className="slots" animate={shake} role="status" aria-label={`${digits.length} of ${LENGTH} figures entered`}>
-          {Array.from({ length: LENGTH }, (_, i) => (
-            <span key={i} className={`slot${i < digits.length ? ' slot--filled' : ''}${i === digits.length && status === 'idle' ? ' slot--active' : ''}`}>
-              {i < digits.length && (
-                <motion.i initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.25 }}>
-                  ✦
-                </motion.i>
-              )}
-            </span>
-          ))}
-        </motion.div>
+          <motion.div className="slots" animate={shake} role="status" aria-label={`${digits.length} of ${LENGTH} figures entered`}>
+            {Array.from({ length: LENGTH }, (_, i) => (
+              <span key={i} className={`slot${i < digits.length ? ' slot--filled' : ''}${i === digits.length && status === 'idle' ? ' slot--active' : ''}`}>
+                {i < digits.length && (
+                  <motion.i initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.25 }}>
+                    ✦
+                  </motion.i>
+                )}
+              </span>
+            ))}
+          </motion.div>
 
-        <div className="cover__status" aria-live="polite">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.span
-              key={statusText}
-              initial={{ opacity: 0, y: 4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.25 }}
-            >
-              {statusText}
-            </motion.span>
-          </AnimatePresence>
-        </div>
-
-        <div className="keypad">
-          {KEYS.map((k, i) =>
-            k === '' ? (
-              <span key={i} />
-            ) : (
-              <motion.button
-                key={i}
-                type="button"
-                className={`key${k === 'del' ? ' key--del' : ''}`}
-                onClick={() => press(k)}
-                whileTap={{ scale: 0.9 }}
-                disabled={lockedFor > 0 || status === 'checking' || status === 'granted'}
-                aria-label={k === 'del' ? 'erase' : k}
+          <div className="cover__status" aria-live="polite">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={statusText}
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.25 }}
               >
-                {k === 'del' ? '⌫' : k}
-              </motion.button>
-            )
-          )}
-        </div>
+                {statusText}
+              </motion.span>
+            </AnimatePresence>
+          </div>
 
-        <p className="cover__hint">No key? Ask Devansh, nicely.</p>
-      </motion.div>
+          <div className="keypad">
+            {KEYS.map((k, i) =>
+              k === '' ? (
+                <span key={i} />
+              ) : (
+                <motion.button
+                  key={i}
+                  type="button"
+                  className={`key${k === 'del' ? ' key--del' : ''}`}
+                  onClick={() => press(k)}
+                  whileTap={{ scale: 0.9 }}
+                  disabled={lockedFor > 0 || status === 'checking' || status === 'granted'}
+                  aria-label={k === 'del' ? 'erase' : k}
+                >
+                  {k === 'del' ? '⌫' : k}
+                </motion.button>
+              )
+            )}
+          </div>
+
+          <p className="cover__hint">No key? Ask Devansh, nicely.</p>
+        </motion.div>
+      </div>
     </motion.main>
   );
 }
