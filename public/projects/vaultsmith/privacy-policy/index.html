@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vaultsmith Privacy Policy</title>
+    <meta name="description" content="How Vaultsmith handles your data: everything stays encrypted on your phone, and nothing is collected." />
+    <meta name="theme-color" content="#0A0C10" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#EEF1F7" media="(prefers-color-scheme: light)" />
+    <link rel="canonical" href="https://devanshnigam.in/projects/vaultsmith/privacy-policy/" />
+    <link rel="icon" type="image/svg+xml" href="/projects/vaultsmith/icon.svg" />
+    <link rel="stylesheet" href="/projects/vaultsmith/vaultsmith.css" />
+  </head>
+  <body>
+    <main>
+      <header class="bar">
+        <a class="bar__home" href="/projects/vaultsmith/" aria-label="Vaultsmith">
+          <svg class="mark" width="36" height="36" viewBox="0 0 100 100" aria-hidden="true">
+            <defs>
+              <linearGradient id="tile-bar" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+                <stop offset="0" style="stop-color: var(--logo-hi)" />
+                <stop offset="0.5" style="stop-color: var(--logo-base)" />
+                <stop offset="1" style="stop-color: var(--logo-lo)" />
+              </linearGradient>
+            </defs>
+            <path fill="url(#tile-bar)" d="M29 0 L71 0 A29 29 0 0 1 100 29 L100 71 A29 29 0 0 1 71 100 L29 100 A29 29 0 0 1 0 71 L0 29 A29 29 0 0 1 29 0 Z" />
+            <path style="fill: var(--bg)" d="M37 42 A13 13 0 1 0 63 42 A13 13 0 1 0 37 42 Z" />
+            <path style="fill: var(--bg)" d="M48 45 L52 45 A4 4 0 0 1 56 49 L56 69 A4 4 0 0 1 52 73 L48 73 A4 4 0 0 1 44 69 L44 49 A4 4 0 0 1 48 45 Z" />
+          </svg>
+          <span class="bar__name">Vaultsmith</span>
+        </a>
+        <span class="bar__crumb"><a href="/">devanshnigam.in</a></span>
+      </header>
+
+      <h1>Privacy Policy</h1>
+      <p class="lead">Effective 4 October 2026</p>
+
+      <section class="pop pop--accent">
+        <p class="eyebrow">In short</p>
+        <p>
+          <strong>Vaultsmith keeps your cards encrypted on your own phone.</strong> The app has no internet access, no
+          account, no analytics and no ads. We collect nothing, and nothing you store in it ever reaches us.
+        </p>
+      </section>
+
+      <section class="pop">
+        <p>
+          This policy explains what Vaultsmith, the Android app (<code>com.vaultsmith.app</code>) made by Devansh
+          Nigam, does with information. "We" means the developer; "you" means the person using the app.
+        </p>
+      </section>
+
+      <section class="pop">
+        <h2>What the app stores, and where</h2>
+        <p>Everything below is stored only on your phone. None of it is sent to us or to anyone else.</p>
+        <ul>
+          <li>
+            <strong>Your cards</strong> &ndash; card number, expiry date, CVV, cardholder name, and the label, bank,
+            card type and colour you choose. They are encrypted with AES-256-GCM, under a key protected by your phone's
+            secure hardware (Android Keystore), so a copy of the file is unreadable on any other device.
+          </li>
+          <li>
+            <strong>Your way back in</strong> &ndash; if you set a master password and security questions, neither is
+            stored as written. They are turned into encryption keys on the phone (Argon2id), used only to unlock your
+            vault.
+          </li>
+          <li>
+            <strong>Fingerprint, face and screen lock</strong> &ndash; if you use them, Android checks them. The app
+            never receives your fingerprint, face data or PIN; it is only told whether the check succeeded.
+          </li>
+          <li>
+            <strong>Settings</strong> &ndash; your theme, colours, logo, card order and similar choices, kept in
+            ordinary app storage so the app can look right before it is unlocked. They contain no card details.
+          </li>
+        </ul>
+      </section>
+
+      <section class="pop">
+        <h2>What we collect</h2>
+        <p>
+          <strong>Nothing.</strong> Vaultsmith does not request internet access from Android, so it cannot send data
+          anywhere. There are no accounts, servers, analytics, advertising, tracking or crash-reporting services in the
+          app.
+        </p>
+      </section>
+
+      <section class="pop">
+        <h2>When information leaves your phone</h2>
+        <p>Only when you choose, and only through Android:</p>
+        <ul>
+          <li>
+            <strong>Sharing a card.</strong> "Share card details" opens Android's share sheet and hands the app you
+            pick an image and text with the card number, cardholder name and expiry date. The CVV is never shared. What
+            happens next is up to the app you shared with.
+          </li>
+          <li>
+            <strong>Copying.</strong> A copied card number is marked as sensitive, so Android hides it in clipboard
+            previews, and Vaultsmith clears it from the clipboard after a minute if it is still there.
+          </li>
+          <li>
+            <strong>Writing to us.</strong> "Report an issue" opens your own email app with our address and, at the end
+            of the message, the app version and your Android version. We receive only what you choose to send, and use
+            it only to reply. Nothing from your vault is attached.
+          </li>
+        </ul>
+      </section>
+
+      <section class="pop">
+        <h2>Purchases</h2>
+        <p>
+          Vaultsmith Pro is a one-time purchase made through Google Play. Google handles the payment under the
+          <a href="https://policies.google.com/privacy">Google Privacy Policy</a>; we never see your payment details.
+          The app receives only Google's signed confirmation that Pro is owned, which it checks and keeps on your phone
+          so Pro works offline. Google Play may restore the purchase on a new phone signed in to the same Google
+          account.
+        </p>
+      </section>
+
+      <section class="pop">
+        <h2>Backups, and losing your phone</h2>
+        <p>
+          Vaultsmith turns off Android's cloud backup for its data, so your vault is never copied to Google Drive or
+          anywhere else. The other side of that: if you lose your phone, or uninstall the app, your vault cannot be
+          recovered by anyone, including us.
+        </p>
+      </section>
+
+      <section class="pop">
+        <h2>Screenshots</h2>
+        <p>The app blocks screenshots and screen recording, so card details cannot be captured from the screen.</p>
+      </section>
+
+      <section class="pop">
+        <h2>Permissions</h2>
+        <ul>
+          <li><strong>Biometric and fingerprint</strong> &ndash; to unlock the vault with your fingerprint or face, if you choose to.</li>
+          <li><strong>Vibration</strong> &ndash; for small haptic feedback.</li>
+          <li><strong>Google Play Billing</strong> &ndash; to sell and verify Vaultsmith Pro.</li>
+        </ul>
+        <p style="margin-top: 12px">
+          The app does not ask for internet, location, contacts, camera, microphone or storage access.
+        </p>
+      </section>
+
+      <section class="pop">
+        <h2>Deleting your data</h2>
+        <p>
+          Your data exists only on your phone. Use <strong>Erase</strong> in the app to delete your vault, or uninstall
+          Vaultsmith to remove everything it stored. Because we hold no copy, there is nothing for us to delete on our
+          side.
+        </p>
+      </section>
+
+      <section class="pop">
+        <h2>Children</h2>
+        <p>Vaultsmith is meant for adults and is not directed at children.</p>
+      </section>
+
+      <section class="pop">
+        <h2>Security</h2>
+        <p>
+          We designed Vaultsmith so that your data stays encrypted and on your device. No system is perfectly secure:
+          choose a strong master password, keep your phone's screen lock on, and keep your phone updated.
+        </p>
+      </section>
+
+      <section class="pop">
+        <h2>Changes to this policy</h2>
+        <p>
+          If this policy changes, the new version will be posted on this page with a new effective date. If the app
+          ever started collecting data, this page would say so before that version is released.
+        </p>
+      </section>
+
+      <section class="pop">
+        <h2>Contact</h2>
+        <p>
+          Questions or concerns about privacy: Devansh Nigam,
+          <a href="mailto:devanshnigam0003@gmail.com">devanshnigam0003@gmail.com</a>.
+        </p>
+      </section>
+
+      <footer>
+        <span class="footer__name">VAULTSMITH</span>
+        <p>Encrypted on your phone. Nothing is uploaded.</p>
+      </footer>
+    </main>
+  </body>
+</html>

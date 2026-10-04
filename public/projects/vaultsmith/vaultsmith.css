@@ -1,0 +1,399 @@
+/*
+ * Vaultsmith's own look, for its pages on this site: the app's palette, its type,
+ * and its raised square blocks (NeoPOP). Every colour is the app's own, computed
+ * by its code - src/theme/colors.ts and src/shared/ui/pop/popTones.ts in the
+ * vaultsmith repo. Dark by default, as the app is; light with a light phone.
+ */
+
+:root {
+  --bg: #0a0c10;
+  --surface: #12161e;
+  --surface-raised: #1a1f2a;
+  --border: #252b37;
+  --text: #f3f5f9;
+  --text-muted: #8b94a7;
+  --text-faint: #5a6374;
+  --accent: #8fa8ff;
+  --on-accent: #0a0c10;
+
+  /* popTones('panel'): a section slab. */
+  --panel-face: #12161e;
+  --panel-rim: #4d5057;
+  --panel-right: #565960;
+  --panel-bottom: #363a41;
+  /* popTones('secondary'): a key, a secondary button. */
+  --key-face: #1a1f2a;
+  --key-rim: #525760;
+  --key-right: #5b5f68;
+  --key-bottom: #3d414b;
+  /* popTones('primary'): the accent button. */
+  --primary-face: #8fa8ff;
+  --primary-rim: #a8bbff;
+  --primary-right: #6476b3;
+  --primary-bottom: #485480;
+
+  /* The keyhole mark: paletteFromBase(accent), and the ground it is cut into. */
+  --logo-hi: #7e9bff;
+  --logo-base: #8fa8ff;
+  --logo-lo: #6876a6;
+
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #eef1f7;
+    --surface: #f8fafd;
+    --surface-raised: #ffffff;
+    --border: #d8dee9;
+    --text: #12151c;
+    --text-muted: #5b6472;
+    --text-faint: #8a93a3;
+    --accent: #4c63d2;
+    --on-accent: #f8faff;
+
+    --panel-face: #f8fafd;
+    --panel-rim: #caccd0;
+    --panel-right: #caccd0;
+    --panel-bottom: #a5a8ac;
+    --key-face: #ffffff;
+    --key-rim: #d0d0d2;
+    --key-right: #d0d0d2;
+    --key-bottom: #aaabad;
+    --primary-face: #4c63d2;
+    --primary-rim: #7385dc;
+    --primary-right: #354593;
+    --primary-bottom: #263269;
+
+    --logo-hi: #4464ff;
+    --logo-base: #4c63d2;
+    --logo-lo: #374279;
+
+    color-scheme: light;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.6 system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 20px 16px 64px;
+}
+
+a {
+  color: var(--accent);
+}
+
+p {
+  margin: 0 0 12px;
+  color: var(--text-muted);
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+code {
+  font: 0.9em ui-monospace, 'Cascadia Mono', Menlo, monospace;
+  color: var(--text);
+}
+
+/* The bar across the top: the mark, the name, and where you are. */
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 56px;
+  margin-bottom: 8px;
+}
+
+.bar__home {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.bar__name {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+}
+
+.bar__crumb {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--text-faint);
+}
+
+.bar__crumb a {
+  color: inherit;
+}
+
+.mark {
+  display: block;
+  flex: none;
+}
+
+/* "Settings"-sized headings, and the app's uppercase group labels. */
+h1 {
+  margin: 20px 0 4px;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+}
+
+h2 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.lead {
+  margin: 0 0 28px;
+  font-size: 15px;
+  color: var(--text-faint);
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+li {
+  position: relative;
+  margin: 0 0 10px;
+  padding-left: 20px;
+  color: var(--text-muted);
+}
+
+li:last-child {
+  margin-bottom: 0;
+}
+
+/* A small square bullet in the accent, as square as everything else. */
+li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0.62em;
+  width: 7px;
+  height: 7px;
+  background: var(--accent);
+}
+
+/*
+ * A raised block: a square face with its right and bottom sides in deeper
+ * shades, lit from the top left. The sides are parallelograms with 45-degree
+ * ends - the app's PopEdges, drawn with clip-path.
+ */
+.pop {
+  --d: 5px;
+  --face: var(--panel-face);
+  --rim: var(--panel-rim);
+  --right: var(--panel-right);
+  --bottom: var(--panel-bottom);
+  position: relative;
+  margin: 0 var(--d) calc(16px + var(--d)) 0;
+  padding: 20px;
+  background: var(--face);
+  box-shadow: inset 0 0 0 1px var(--rim);
+}
+
+.pop::before,
+.pop::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+
+.pop::before {
+  left: 100%;
+  top: 0;
+  width: var(--d);
+  height: calc(100% + var(--d));
+  background: var(--right);
+  clip-path: polygon(0 0, 100% var(--d), 100% 100%, 0 calc(100% - var(--d)));
+}
+
+.pop::after {
+  top: 100%;
+  left: 0;
+  width: calc(100% + var(--d));
+  height: var(--d);
+  background: var(--bottom);
+  clip-path: polygon(0 0, calc(100% - var(--d)) 0, 100% 100%, var(--d) 100%);
+}
+
+.pop--key {
+  --d: 4px;
+  --face: var(--key-face);
+  --rim: var(--key-rim);
+  --right: var(--key-right);
+  --bottom: var(--key-bottom);
+}
+
+/* The summary at the top: the accent's colours, the way the app marks what matters. */
+.pop--accent {
+  --face: var(--surface-raised);
+  --rim: var(--primary-rim);
+  --right: var(--primary-right);
+  --bottom: var(--primary-bottom);
+}
+
+/*
+ * A button, pushed into the page while pressed: the face slides down and right
+ * by the depth and the sides go, as the app's buttons do.
+ */
+.button {
+  --d: 4px;
+  --face: var(--key-face);
+  --rim: var(--key-rim);
+  --right: var(--key-right);
+  --bottom: var(--key-bottom);
+  --ink: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 22px;
+  margin: 0 var(--d) var(--d) 0;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-decoration: none;
+  transition: transform 70ms ease-out;
+}
+
+.button::before,
+.button::after {
+  transition: opacity 70ms ease-out;
+}
+
+.button:active {
+  transform: translate(var(--d), var(--d));
+  transition-duration: 180ms;
+}
+
+.button:active::before,
+.button:active::after {
+  opacity: 0;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.button--primary {
+  --face: var(--primary-face);
+  --rim: var(--primary-rim);
+  --right: var(--primary-right);
+  --bottom: var(--primary-bottom);
+  --ink: var(--on-accent);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 16px;
+  margin: 24px 0 36px;
+}
+
+/* The landing page's opening: the mark large, the name, the line under it. */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 28px 0 4px;
+}
+
+.hero h1 {
+  margin-top: 18px;
+}
+
+.tagline {
+  margin: 0;
+  font-size: 17px;
+  color: var(--text-muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0 18px;
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.grid .pop {
+  padding: 18px;
+}
+
+.grid h2 {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.grid p {
+  font-size: 15px;
+}
+
+/* The settings footer: a shield, the name in small caps, a quiet line. */
+footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 36px;
+  text-align: center;
+}
+
+footer .footer__name {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+  color: var(--text-faint);
+}
+
+footer p {
+  font-size: 12px;
+  color: var(--text-faint);
+}
